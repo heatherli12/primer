@@ -4,6 +4,17 @@
 library(tidyverse)
 ```
 
+<!-- Add many comments with initials SZ:-->
+
+<!-- Learn about captions in R Markdown. Maybe useful: https://bookdown.org/yihui/bookdown/figures.html. One option fig.cap in the cod chunk options. -->
+
+<!-- Add one or two captions. -->
+
+<!-- Do the tutorials. Send me the .rds. -->
+
+
+<!-- Old stuff: -->
+
 <!-- Stick in the formula for estimating ATE. See DK comment in text. -->
 
 <!-- Need a Here Be Dragons gif at the end. -->
@@ -22,7 +33,7 @@ library(tidyverse)
 
 <!-- Make the math in the examples here and in the tutorial easy enough to do in our heads. In particular, the average value for any column should be easy to calculate. -->
 
-<!-- Consider adding permutation tests, if only to practice list-columns. -->
+<!-- Consider adding permutation tests, if only to practice list-columns. Or maybe make a tutorial which does this? That would be a nice one hour exercise. Can always add it back to the chapter later. -->
 
 <!-- Does RCM connect to concepts like regression to the mean and the garden of forking paths? If so, we should add sections to those appendices. -->
 
@@ -39,6 +50,7 @@ Have you ever wondered what the world would be like without you?
 knitr::include_app("https://www.youtube.com/embed/cR7p-IB6INM")
 ```
 
+<!-- SZ: Movie clips are stupid. Students will never watch them. -->
 
 George Bailey, in the movie "It's a Wonderful Life," believes that his life has served no purpose. The movie follows George as he explores a world in which he was never born. It is clear that he had a profound impact on the lives of many people in his community. His actions mattered, more than he ever realized.
 
@@ -120,7 +132,7 @@ tibble(ID = c("Student 1", "Student 2", "...", "Student 473", "Student 474",
   gt() %>%
   cols_label(ID = md("ID"),
                 Heights = "Heights (cm)") %>%
-  cols_move(columns = c(Heights), after = vars(ID)) %>%
+  cols_move(columns = c(Heights), after = c(ID)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(ID))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle"), 
@@ -205,7 +217,7 @@ gt() %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
   fmt_markdown(columns = everything()) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol))
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol))
 ```
 
 &nbsp;
@@ -228,7 +240,7 @@ tibble(subject = "Yao",
                 ytreat = md("$$Y_t$$"),
                 ycontrol = md("$$Y_c$$"),
                 ydiff = md("$$Y_t - Y_c$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
@@ -236,8 +248,8 @@ tibble(subject = "Yao",
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
   fmt_markdown(columns = everything()) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff))
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff))
 ```
 
 &nbsp;
@@ -276,7 +288,7 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
@@ -284,8 +296,8 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
   fmt_markdown(columns = everything()) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol))  %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff))
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol))  %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff))
 ```
 
 &nbsp;
@@ -326,7 +338,7 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
@@ -334,8 +346,8 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
   fmt_markdown(columns = everything())  %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol))  %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff))
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol))  %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff))
 ```
 
 &nbsp;
@@ -371,15 +383,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -404,15 +416,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -439,15 +451,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -470,15 +482,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -505,15 +517,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -541,15 +553,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -572,15 +584,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -611,15 +623,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -671,15 +683,15 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -719,7 +731,7 @@ tibble(subject = c("Person 1", "Person 2", "Person 3", "...", "Person N"),
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "Outcome", vars(`Attitude`))
+  tab_spanner(label = "Outcome", c(`Attitude`))
 ```
 
 &nbsp;
@@ -742,7 +754,7 @@ tibble(subject = c("Person 1", "Person 2", "Person 3", "...", "Person N"),
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "Outcome", vars(`Attitude`))
+  tab_spanner(label = "Outcome", c(`Attitude`))
 ```
 
 &nbsp;
@@ -769,7 +781,7 @@ tibble(subject = c("Respondent 1", "Respondent 2", "Respondent 3", "...", "Respo
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "Outcome", vars(`Attitude`))
+  tab_spanner(label = "Outcome", c(`Attitude`))
 ```
 
 &nbsp;
@@ -870,15 +882,15 @@ tibble(subject = c("Platform 1", "Platform 2", "Platform 3", "Platform 4", "Plat
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff))
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff))
 ```
 
 &nbsp;
@@ -900,15 +912,15 @@ tibble(subject = c("Platform 1", "Platform 2", "Platform 3", "Platform 4", "Plat
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff)) 
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff)) 
 ```
 
 &nbsp;
@@ -958,15 +970,15 @@ tibble(subject = c("Yao this year", "Yao next year", "Yao two years from now", "
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject))) %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ycontrol)) %>%
-  tab_spanner(label = "$$\\text{Estimand}$$", vars(ydiff))
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Estimand}$$", c(ydiff))
 ```
 
 &nbsp;
@@ -1002,7 +1014,7 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ytreat2, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ytreat2, ycontrol)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -1039,7 +1051,7 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ytreat2, ytreat3, ytreat4, ytreat5, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ytreat2, ytreat3, ytreat4, ytreat5, ycontrol)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -1073,7 +1085,7 @@ tibble(subject = c("Yao", "Emma", "Cassidy", "Tahmid", "Diego"),
             locations = cells_column_labels(columns = c(subject))) %>%
   cols_align(align = "center", columns = everything()) %>%
   cols_align(align = "left", columns = c(subject)) %>%
-  tab_spanner(label = "$$\\text{Outcomes}$$", vars(ytreat, ytreat1001, ytreat1002, yellipsis, ycontrol)) %>%
+  tab_spanner(label = "$$\\text{Outcomes}$$", c(ytreat, ytreat1001, ytreat1002, yellipsis, ycontrol)) %>%
   fmt_markdown(columns = everything())
 ```
 
@@ -1183,7 +1195,7 @@ tibble(subject = c("R", "R", "D", "R", "D"),
                 ytreat = md("$$Y_t(u)$$"),
                 ycontrol = md("$$Y_c(u)$$"),
                 ydiff = md("$$Y_t(u) - Y_c(u)$$")) %>%
-  cols_move(columns = c(ytreat, ycontrol), after = vars(subject)) %>%
+  cols_move(columns = c(ytreat, ycontrol), after = c(subject)) %>%
   tab_style(cell_borders(sides = "right"),
             location = cells_body(columns = c(subject)))  %>%
   tab_style(style = cell_text(align = "left", v_align = "middle", size = "large"), 
