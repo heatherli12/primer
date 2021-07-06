@@ -2,18 +2,30 @@
 
 Everyone loves visualizations. 
 
-<!-- Fix graph. -->
+<!-- Re-read the chapter and add a bunch of comments with your initials. KX: -->
 
-<!-- Add plotly -->
+<!-- Read Chapter 5 and 6 and 7. -->
 
-<!-- Switch all ifelse to if_else -->
+<!-- Fix opening graph so that it looks nicer.  Or maybe change it completely? e.g,,-->
+
+<!-- Learn about tutorials. Do the same create_from_github. Read instructions.Rmd. Start Visualization-D, which is like Visualization-C, except better. This is harder then it looks. -->
+
 
 <!-- Would be nice if the plot featured a statistical measure of some kind (maybe a 95% confidence interval) so that we have a motivation for learning about distributions. Probably need a very different plot. Maybe something political? Election 2020? -->
 
-<!-- Plot should be much cooler, perhaps even using big data. And an associated map. Precinct level voting changes 2012 -> 2016 -> 2020, perhaps. -->
+<!-- Plot should be much cooler, perhaps even using bigger data. And an associated map. Precinct level voting changes 2012 -> 2016 -> 2020, perhaps. But still needs to be something which we can easily use with plotly. Necessary for it to be animateable? -->
 
-<!-- Should discuss group aesthetic, especially for line plots. -->
+<!-- Old stuff: -->
 
+<!-- New section on cool packages. gghighlights, ggsides, -->
+
+<!-- Add section which explains plotly. -->
+
+<!-- Switch all ifelse to if_else -->
+
+<!-- Should discuss `group` aesthetic, especially for line plots. -->
+
+<!-- Better explain Tidyverse. -->
 
 ```{r, message = FALSE, echo = FALSE}
 library(tidyverse)
@@ -79,7 +91,6 @@ R is an [interpreted language](https://en.wikipedia.org/wiki/Interpreted_languag
 <!-- DK: This is awkward. When are we teaching about R Markdown? -->
 <!-- HL: we could probably just skip the whole "this isn't like Excel" and just say "we'll be teaching you the coding language R, it's a language like python or javascript" and then move on -->
 
-<!-- Skip the whole "this isn't like Excel" and just say "we'll be teaching you the coding language R, it's a language like python or javascript" and then move on -->
 
 If you want a slower introduction than we are providing here, check out the short book, [*Getting Used to R, RStudio, and R Markdown*](https://rbasics.netlify.com/). @usedtor2016 include screencast recordings that you can follow along and pause as you learn. They include an introduction to R Markdown, a tool used for reproducible research in R.
 
@@ -313,7 +324,7 @@ ggplot(data = trains,
        caption = "Data source: Enos (2014)")
 ```
 
-Note that like with `geom`s, we add a layer using `+` when creating `labs()`for our plot. In general, every plot should gave a title and axes labels. You should also add a `subtitle`, the purpose of which is to give a short "main point" of the graphic. What do you want the viewer to notice? You should also provide the source for the data, usually via the `caption` argument.
+Note that like with `geom`s, we add a layer using `+` when creating `labs()`for our plot. In general, every plot should give a title and axes labels. You should also add a `subtitle`, the purpose of which is to give a short "main point" of the graphic. What do you want the viewer to notice? You should also provide the source for the data, usually via the `caption` argument.
 
 Let's now take a tour of some of the more useful geoms.
 
@@ -333,7 +344,8 @@ ggplot(data = trains,
        caption = "Data source: Enos (2014)")
 ```
 
-The problem with this display is "overplotting." Because attitudes are measured as integers, we do not not know if a given point represents just one person or a dozen. There are two methods we can use to address overplotting: transparency and jitter.
+
+The problem with this display is "overplotting." Because attitudes are measured as integers, we do not know if a given point represents just one person or a dozen. There are two methods we can use to address overplotting: transparency and jitter.
 
 **Method 1: Changing the transparency**
 
@@ -469,14 +481,12 @@ We can also adjust the number of bins in our histogram in one of two ways:
 
 2. By adjusting the width of the bins via the `binwidth` argument to `geom_histogram()`. 
 
-<!-- HL: give an example of the binwidth argument and how to use it? Maybe? -->
-
 In this data, however, there are not many unique values for `income`, so neither approach will have much effect. Replace `income` with `age` if you want to experiment with these options.
 
 
 ### `geom_bar()` 
 
-`geom_bar()` visualizes the distribution of a categorical variable. This is a simpler task that creating a histogram, as we are simply counting different categories within a categorical variable, also known as the *levels* of the categorical variable. Often the best way to visualize these different counts, also known as *frequencies*, is with a barplot.
+`geom_bar()` visualizes the distribution of a categorical variable. This is a simpler task than creating a histogram, as we are simply counting different categories within a categorical variable, also known as the *levels* of the categorical variable. Often the best way to visualize these different counts, also known as *frequencies*, is with a barplot.
 
 
 ```{r}
@@ -488,7 +498,7 @@ ggplot(data = trains,
 
 `geom_col()` is very similar to `geom_bar()`, except that `geom_col()` requires you to calculate the number of observations in each category ahead of time. `geom_bar()` does the calculation for you.
 
-<!-- HL: could we elaborate on geom_col() more? give it its own mini section bc I think it's distinct enough and people might not understand why you need to use geom_col if it's so similar to geom_bar. Add a code chunk with does group_by and summarize and then pipes to geom_col. -->
+<!-- HL: could we elaborate on geom_col() more? give it its own mini section bc I think it's distinct enough and people might not understand why you need to use geom_col if it's so similar to geom_bar. Add a code chunk with does group_by and summarize and then pipes to geom_col. See new section in tutorials. Agreed. -->
 
 
 #### No pie charts!
@@ -498,9 +508,8 @@ One of the most common plots used to visualize the distribution of categorical d
 
 #### Two categorical variables
 
-Another use of barplots is to visualize the *joint* distribution of two categorical variables. Let's look at `race`, as well as `treatment`, in the `trains` data by using the `fill` argument inside the `aes()` aesthetic mapping. Recall the `fill` aesthetic corresponds to the color used to fill the bars.
+Another use of barplots is to visualize the *joint* distribution of two categorical variables. (See Chapter \@ref(probability) for the definition of a joint distribution.) Let's look at `race`, as well as `treatment`, in the `trains` data by using the `fill` argument inside the `aes()` aesthetic mapping. Recall the `fill` aesthetic corresponds to the color used to fill the bars.
 
-<!-- HL: define what joint distribution means? -->
 
 ```{r}
 ggplot(trains, 
@@ -687,7 +696,7 @@ trains %>%
            age < 40)
 ```
 
-Instead of create a single criteria with many parts, liked with an `&`, you can just separate the parts with a comma. The resulting tibble is the same.
+Instead of creating a single criterion with many parts, like with an `&`, you can just separate the parts with a comma. The resulting tibble is the same.
 
 ```{r}
 trains %>% 
@@ -821,7 +830,7 @@ trains <- trains %>%
 
 <!-- DK: Awk -->
 
-Whenever we create a new tibble, or a new variable within a tibble, we have a choice: Should we overwrite the existing tibble/variable or create a new one? There is no right answer. 
+Whenever we create a new tibble, or a new variable within a tibble, we face a dilemma: Should we overwrite the existing tibble/variable or create a new one? There is no right answer. 
 
 For example, instead of overwriting `trains` in the code above, we could have created a new tibble `trains_new`. Similarly, instead of creating a new variable, `income_in_thousands`, we could have overwritten the current value of `income`. Use your best judgment and be careful. 
 
