@@ -1290,8 +1290,15 @@ Great. Now our graph is easier to visualize.
 
 The `theme()` function also offers a wide [selection](https://ggplot2.tidyverse.org/reference/theme.html) of functions for manually changing individual elements. We will cover the most widely used ones here, but the vast majority will be listed in that link.
 
-There are three key elements
+There are two key elements in the `theme()` function.
 
+* **Theme elements**: these specify the non-data elements you can control. For example, `panel.border` is the element that controls the border of the grid area.
+
+* **Element function**: this describes the visual properties of the element. There are four main element functions, `element_blank()`, `element_rect()`, `element_line()`, `element_text()`. 
+  * **element_blank()**: this hides the element from the theme.
+  * **element_line()**: this modifies elements that are plot lines, grid lines, axes, etc.
+  * **element_text()**: this changes the text elements of the plot, like titles, captions, etc.
+  * **element_rect()**: rectangle elements control the background of plots, legends, etc.
 
 ## Summary
 
