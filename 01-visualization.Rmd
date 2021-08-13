@@ -1300,6 +1300,38 @@ There are two key elements in the `theme()` function.
   * **element_text()**: this changes the text elements of the plot, like titles, captions, etc.
   * **element_rect()**: rectangle elements control the background of plots, legends, etc.
 
+Let's look at an example of how we might want to modify a graph. Take this graph below.
+
+```{r}
+ggplot(data = economics,
+       mapping = aes(x = date,
+                     y = unemploy)) +
+  geom_line() +
+  labs(title = "Unemployed Population in the United States: 1965 - 2015",
+       subtitle = "Dramatic spike during the Great Recesssion",
+       x = "Year",
+       y = "Number of Unemployed (in thousands)",
+       caption = "Source: FRED Economic Data")
+```
+
+You have a couple of problems with this graph. Firstly, you want the title to be bold. You want there to be a light blue background. You also don't particularly care for there to be so many grid lines from the x-axis. Let's change this!
+
+```{r}
+ggplot(data = economics,
+       mapping = aes(x = date,
+                     y = unemploy)) +
+  geom_line() +
+  labs(title = "Unemployed Population in the United States: 1965 - 2015",
+       subtitle = "Dramatic spike during the Great Recesssion",
+       x = "Year",
+       y = "Number of Unemployed (in thousands)",
+       caption = "Source: FRED Economic Data") +
+  theme(plot.title = element_text(face = "bold"),
+        panel.background = element_rect(fill = "lightblue"),
+        panel.grid.minor.x = element_blank())
+```
+There! Within the `theme()` function, we can change the plot title to bold, the background to blue, and get rid of the "minor" grid lines. `theme()` is a very versatile function. See the full list of elements [here](https://ggplot2-book.org/polishing.html#polishing).
+
 ## Summary
 
 *Tibbles are rectangular stores of data. They are a specific type of data frame, so we will use both terms interchangeably.*
