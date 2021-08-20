@@ -6,7 +6,7 @@
 
 <!-- The way that one does does so, is one draws 4,000 values from them, does some manipulation *row-by_row*, and then, hooray, you have you answer.  -->
 
-<!-- Often, one needs to go backwards. Start with question. How many random variables do you need to know the values of to answer the question? If someone asks you about the tallest of 5 men, then, (obviously?), you need to know the height of the five men. (Would it be useful to connect this to the Preceptor Table?) So, you need to work with 5 random variables and we do that by working with the probability distributions. -->
+<!-- Often, one needs to go backwards. Start with question. How many random variables do you need to know the values of to answer the question? If someone asks you about the tallest of 5 men, then, (obviously?), you need to know the height of the five men. (Would it be useful to connect this to the Preceptor Table?) So, you need to work with 5 random variables and we do that by working with the probability distributions. -- Added>
 
 <!-- You can consider these pdfs to be independent, so you can draw them independently and then --- this is the magic! --- you can treat a row as a draw from their joint distribution. -->
 
@@ -157,6 +157,93 @@ tibble(ID = 1:3) %>%
 ```
 
 This flexibility is only possible via the use of list-columns and  `map_*` functions. This workflow is extremely common. We start with an empty tibble, using ID to specify the number of rows. With that skeleton, each step of the pipe adds a new column, working off a column which already exists. 
+
+## Distributions
+
+A variable in a tibble is a column, a vector of values. We sometimes refer to this vector as a "distribution." This is somewhat sloppy in that a distribution can be many things, most commonly a mathematical formula. But, strictly speaking, a "frequency distribution" or an "empirical distribution" is a list of values, so this usage is not unreasonable.
+
+*There are two distinct concepts: a distribution and a set values drawn from that distribution.*  But, in everyday use, we use "distribution" to both. When given a distribution (meaning a vector of numbers), we often use `geom_histogram()` or `geom_density()` to graph it. But, sometimes, we don't want to look at the whole thing. We just want some summary measures which report the key aspects of the distribution. The two most important attributes of a distribution are its *center* and its *variation* around that center.
+
+We use `summarize()` to calculate statistics for a variable, a column, a vector of values or a distribution. Note the language sloppiness. For the purposes of this book, "variable," "column," "vector," and "distribution" all mean the same thing. Popular statistical functions include: `mean()`, `median()`, `min()`, `max()`, `n()` and `sum()`. Functions which may be new to you include three measures of the "spread" of a distribution: `sd()` (the standard deviation), `mad()` (the scaled median absolute deviation) and `quantile()`, which is used to calculate an *interval* which includes a specified proportion of the values. 
+
+*A distribution is a function that shows the possible values of a variable and how often they occur.*
+
+Think of the distribution of a variable as an urn from which we can pull out, at random, values for that variable. Drawing a thousand or so values from that urn, and then looking at a histogram, can show where the values are centered and how they vary. Because people are sloppy, they will use the word distribution to refer to both the (imaginary!) urn from which we are drawing values and to the list of values we have drawn. It is better, however, to keep three distinct ideas separate:
+
+* The *unknown true distribution* which, in reality, generates the data which we see. Outside of stylized examples in which we *assume* that a distribution follows a simple mathematical formula, we will never have access to the unknown true distribution. We can only estimate it. This unknown true distribution is often referred to as the *data generating mechanism*, or DGM. It is a function or black box or urn which produces data. We can see the data. We can't see the urn. Later in the *Primer*, once we have learned about posterior distributions, we will often refer to this as *Preceptor's Posterior*.
+
+* The *estimated distribution* which, we think, generates the data which we see. Again, we can never know the unknown true distribution. But, by making some assumptions and using the data we have, we can *estimate* a distribution. Our estimate may be very close to the true distribution. Or it may be far away. The main task of data science to to create and use these estimated distributions. Almost always, these distributions are instantiated in computer code.
+
+* A *vector of numbers drawn* from the estimated distribution. Both true and estimated distributions can be complex beasties, difficult to describe accurately and in detail. But a vector of numbers drawn from a distribution is easy to understand and use. So, in general, we work with vectors of numbers. When someone --- either a colleague or a piece of R code --- creates a distribution which we want to use to answer a question, we don't really want the distribution itself. Rather, we want a vectors of "draws" from that distribution. Vectors are easy to work with! Complex computer code is not.
+
+Again, people (including us!) will often be sloppy and use the same word, "distribution," without making it clear whether they are talking about the *true distribution*, the *estimated distribution*, or a vector of *draws* from the estimated distribution. Try not to be sloppy.
+
+### Scaling a distribution
+
+Consider the vector which is the result of rolling one die 10 times.
+
+```{r}
+rolls <- c(5, 5, 1, 5, 4, 2, 6, 2, 1, 5)
+```
+
+There are other ways of storing the data in this vector. Instead of recording every draw, we could just record the number of times each value appears.
+
+```{r}
+table(rolls)
+```
+
+
+In this case, with only 10 values, it is actually less efficient to store the data like this. But what happens when we have 10,000 rolls?
+
+```{r}
+more_rolls <- rep(rolls, 1000)
+table(more_rolls)
+```
+
+Instead of keeping around a vector of length 10,000, we can just keep 10 values, without losing any information.
+
+This example also highlights the fact that, graphically, two distributions can be identical even if they are of very different lengths.
+
+```{r, echo = FALSE}
+rolls_p <- tibble(value = rolls) %>% 
+  ggplot(aes(value)) +
+    geom_bar(aes(y = after_stat(count))) +
+    labs(title = "Distribution of 10 Rolls",
+         y = "Count") 
+
+
+more_rolls_p <- tibble(value = more_rolls) %>% 
+  ggplot(aes(value)) +
+    geom_bar(aes(y = after_stat(count))) +
+    labs(title = "Distribution of 10,000 Rolls",
+         y = NULL)
+
+
+rolls_p + more_rolls_p
+```
+
+The two vectors --- `rolls` and `more_rolls` --- have the exact same shape because even though of different lengths, these values were drawn from the same distribution. *The total count for each value does not matter. What matters is the relative proportions.*
+
+Since shape is what matters, we often "normalize" distributions so that the sum of the counts equals one, where y-axis shows the percentages of total. Example:
+
+```{r, echo = FALSE}
+rolls_p <- tibble(value = rolls) %>% 
+  ggplot(aes(x = value)) +
+    geom_bar(aes(y = after_stat(count/sum(count)))) +
+    labs(title = "Distribution of 10 Rolls",
+         y = "Percentage") +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1))
+
+more_rolls_p <- tibble(value = more_rolls) %>% 
+  ggplot(aes(value)) +
+    geom_bar(aes(y = after_stat(count/sum(count)))) +
+    labs(title = "Distribution of 10,000 Rolls",
+         y = NULL) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1))
+
+rolls_p + more_rolls_p
+```
+
 
 
 ## Probability distributions
@@ -640,6 +727,7 @@ knitr::include_graphics("05-probability/images/truth_out_there.jpg")
 
 Don't worry about the distinctions between discrete and continuous outcomes, or between the discrete and continuous probability distributions which we will use to summarize our beliefs about those outcomes. The basic intuition is the same in both cases.
 
+<!-- DK: This section is no longer necessary because we introduce these concepts above. So, move the important stuff up and then delete this. -->
 
 ### Unnormalized distributions
 
@@ -1083,6 +1171,49 @@ Now recalled the question we asked at the start of the session:
 
 By looking at the posterior graph we just create, we can answer this question easily:
 *With a positive test, you can be almost 70% sure that you have Probophobia, however there is a good chance about 30% that you receive a false positive, so don't worry too much there is still about a third of hope that you get the wrong result*
+
+Now let's consider the manipulation of this posterior, here is another question.
+Question : *10 people walks up to testing center, 5 of them tested negative, 5 of them tested positive, what is the probability of at least 6 people is actually healthy? *
+
+```{r}
+tibble(test = 1:100000) %>%
+mutate(person1 =   map_int(test, ~ rbinom(n = 1, size = 1, p = 0.3))) %>%
+  
+mutate(person2 = map_int(test, ~ rbinom(n = 1, size = 1, p = 0.3))) %>%
+  
+mutate(person3 = map_int(test, ~ rbinom(n = 1, size = 1, p = 0.3))) %>%
+  
+mutate(person4 =  map_int(test, ~ rbinom(n = 1, size = 1, p = 0.3))) %>%
+  
+mutate(person5 = map_int(test, ~ rbinom(n = 1, size = 1, p = 0.3))) %>%
+  
+  
+mutate(person6 = map_int(test, ~ rbinom(n = 1, size = 1, p = 0.7))) %>%
+  
+mutate(person7 = map_int(test, ~ rbinom(n = 1, size = 1, p = 0.7))) %>%
+  
+mutate(person8 = map_int(test, ~ rbinom(n = 1, size = 1, p = 0.7))) %>%
+  
+mutate(person9 = map_int(test, ~ rbinom(n = 1, size = 1, p = 0.7))) %>%
+  
+mutate(person10 =  map_int(test, ~ rbinom(n = 1, size = 1, p = 0.7))) %>%
+  
+select(!test) %>%
+  
+mutate(sum = rowSums(.))%>%
+  
+ggplot(aes(sum)) +
+  geom_histogram(aes(y = after_stat(count/sum(count))),
+                 binwidth = 1,
+                   color = "white") +
+  scale_x_continuous(breaks = c(0:10)) +
+    scale_y_continuous(labels = 
+                         scales::percent_format(accuracy = 1)) +
+    theme_classic()  
+
+
+```
+
 
 <!-- DK: Insert a use of this posterior? How many positive tests before you have at least 10 sick people? -->
 
@@ -1588,7 +1719,7 @@ odds_2nd %>%
   ggplot(aes(x = heads,fill = above_ten))+
            geom_histogram(aes(y = after_stat(count/sum(count))),bins = 50)+
   scale_fill_manual(values = c('grey50', 'red'))+
-  labs(title = "Posterior Probability Distribution (Right Way 1st)",
+  labs(title = "Posterior Probability Distribution (Right Way)",
          subtitle = "Number of heads in 20 tosses",
          x = "Number of heads",
          y = "Probability",
@@ -1605,54 +1736,7 @@ odds_2nd %>%
 ```
 about 32.8%
 
-Third way is to sample from the actual distribution, which is a small dataset with just a few rows, but it includes both $\rho_h$ and the probability of each $\rho_h$. This also gives the correct answer.
 
-```{r}
-p_posterior <- jd_coin %>% 
-  filter(heads == 8) %>% 
-  group_by(p) %>% 
-  summarize(total = n(), .groups = "drop") %>%
-  mutate(probs = total/sum(total))
-
-odds_3rd <- tibble(p = sample(p_posterior$p, 
-                          size = sims, 
-                          prob = p_posterior$probs, 
-                          replace = TRUE)) %>%
-  mutate(heads = map_int(p, ~ rbinom(n = 1, 
-                                     size = 20, 
-                                     p = .))) %>% 
-  mutate(above_ten = if_else(heads >= 10, 
-                         TRUE, 
-                         FALSE)) 
-
-odds_3rd
-
-```
-
-
-```{r}
-odds_3rd %>%
-  ggplot(aes(x = heads,fill = above_ten))+
-           geom_histogram(aes(y = after_stat(count/sum(count))),bins = 50)+
-  scale_fill_manual(values = c('grey50', 'red'))+
-  labs(title = "Posterior Probability Distribution (Right Way 3rd)",
-         subtitle = "Number of heads in 20 tosses",
-         x = "Number of heads",
-         y = "Probability",
-         fill = "Above ten heads") + 
-    scale_x_continuous(labels = scales::number_format(accuracy = 1)) +
-    scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-    theme_classic()
-```
-
-Using this Posterior distribution derived from the (right way 2nd) simulated data, the probability results in 10 or more head is
-
-```{r}
-odds_3rd %>%
-  summarize(success = sum(above_ten)/sims)
-```
-
-about 32% which is pretty close to the second method.
 
 As you may have noticed, if you calculated the value using the first method, you would believe that getting 10 or more heads is less likely than it really is. If you were to run a casino based on these assumptions, you will lose all your money. It is very important to be careful about the assumptions you are making. We tossed a coin 20 times and got 8 heads. However, you would be wrong to assume that $\rho_h$ = 0.4 just based on this result.
 
@@ -1859,6 +1943,9 @@ Even worse, we must always worry that our estimated posterior, despite all the w
 Throughout this Chapter, we spent time going through examples of conditional distributions. However, it's worth noting that all probability distributions are conditional on something. Even in the most simple examples, when we were flipping a coin multiple times, we were assuming that the probability of getting heads versus tails did not change between tosses.
 
 We also discussed the difference between empirical, mathematical, and posterior probability distributions. Even though we developed these heuristics to better understand distributions, every time we make a claim about the world, it is based on our beliefs - what we think about the world. We could be wrong. Our beliefs can differ. Two reasonable people can have conflicting beliefs about the fairness of a die.
+
+At the start of this chapter we briefly discuss the definition of an random variable, yet we sort of let it go for the rest of the chapter, but it's hiding almost everywhere whenever we create an distribution. 
+For example, in two models we have two random variables, the have disease and the don't have disease, in three models we have three random variables, either to have 0 or 1 or 2 white marbles in bad. Essentially is just like the missing values in the Preceptor table *what random variables do you need to know the values of to answer the question? *
 
 It is useful to understand the three types of distributions and the concept of conditional distributions, but almost every probability distribution is conditional and posterior. We can leave out both words in future discussions, as we generally will in this book. They are implicit.
 
