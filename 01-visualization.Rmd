@@ -14,15 +14,13 @@ Everyone loves visualizations.
 
 <!-- Make graphs at end also use clean_theme(). -->
 
-<!-- Maybe use Biden approval for lead plot. Or presidential approval over last three Presidents? -->
-
-<!-- Plot should be much cooler, perhaps even using bigger data. And an associated map. Precinct level voting changes 2012 -> 2016 -> 2020, perhaps. But still needs to be something which we can easily use with plotly. Necessary for it to be animateable? -->
-
 ```{r, message = FALSE, echo = FALSE}
 library(tidyverse)
 library(ggthemes)
 library(scales)
 library(gapminder)
+
+# first plot, I'm keeping the old plot in here because it takes too long to load the trump plot in plotly
 
 gap_p <- gapminder %>%
   filter(continent != "Oceania") %>%
@@ -42,7 +40,25 @@ gap_p <- gapminder %>%
     theme_clean() + 
     theme(legend.position = "none")
 
-gap_p
+trump_data <- read_csv("01-visualization/data/visualization_trump_data.csv",
+                       show_col_types = FALSE)
+
+trump_p <- trump_data %>% 
+  ggplot(mapping = aes(x = enddate,
+                       y = rate,
+                       color = approval_type)) +
+   geom_point(alpha = 0.05,
+              size = 0.5) +
+   geom_smooth(method = "gam",
+               formula = y ~ s(x, bs = "cs")) +
+   coord_cartesian(ylim = c(30, 65)) +
+   theme_fivethirtyeight() +
+   labs(title = "Trump's Approval and Disapproval Ratings From \n2017-2021",
+        subtitle = "His approval peaked in late 2017 but has since stayed consistent throughout.",
+        x = NULL,
+        y = NULL,
+        color = "Approval or Disapproval")
+trump_p
 ```
 
 Once you have read this chapter, and completed the associated tutorials, you will be able to create graphics like this one with your data. Join us on the journey.
@@ -1095,43 +1111,6 @@ ggplot(data = gapminder,
   labs(y = "Percentage")
 ```
 
- 
-### Coordinate Systems
-
-<!-- DK: Awk? Delete? Need more tricks, but more pithily explained and demonstrated. -->
-
-We can switch the axes on a plot with `coord_flip()`. Consider the faceted scatterplot we previously created. 
-
-```{r}
-ggplot(data = gapminder_filt, 
-       mapping = aes(x = gdpPercap, 
-                     y = lifeExp, 
-                     color = continent)) +
-  geom_point() +
-  facet_wrap(~ continent, nrow = 1) +
-  geom_smooth(method = "lm", 
-              formula = y ~ x, 
-              se = FALSE)
-```
-
-Adding the layer `coord_flip()` flips the axes.
-
-```{r}
-ggplot(data = gapminder_filt, 
-       mapping = aes(x = gdpPercap, 
-                     y = lifeExp, 
-                     color = continent)) +
-  geom_point() +
-  facet_wrap(~ continent, nrow = 1) +
-  geom_smooth(method = "lm", 
-              formula = y ~ x, 
-              se = FALSE) +
-  coord_flip()
-```
-
-`lifeExp` is now on the x-axis and `gdpPercap` on the y-axis. Compared to the previous plot it is now easier to observe the distribution of life expectancy in the respective continents. For example, we can see that many countries in Africa are at about 55 years, in the Americas and Asia at 75 years, and in Europe at 80 years. However, we think it makes more sense to consider `lifeExp` as the dependent variable, so we won't use `coord_flip()` in subsequent plots.
-
-
 ### Axis Limits and Scales
 
 We can also manipulate the limits of the axes by using `xlim()` and `ylim()` within a call to `coord_cartesian()`. For example, assume that we are only interested in countries with a GDP per capita from 0 to 30,000. Recall that, because `data` is the first argument and `mapping` is the second to `ggplot()`, we don't actually have to name the arguments. We can just provide them, as long as they are in the correct order.
@@ -1332,14 +1311,12 @@ Recall the plot we began the chapter with:
 
 
 ```{r, echo = FALSE}
-gap_p
+trump_p
 ```
 
 You now know enough to make plots like this by yourself.
 
-<!-- HL: maybe we should just leave a link to other areas of the primer where they can explore the annimate and plotly stuff? feels sort of wrong to just leave it dangling here and then not explain it. Maybe we can include the pretty graphs as a teaser and then redirect them to where they should actually learn about it bc the code feels awkwardly plopped here -->
-
-It is important to know that we have only seen a small part of what R offers. For example, we can use the **gganimate** package to bring a slightly modified version of our gapminder plot to life:
+It is important to know that we have only seen a small part of what R offers. For example, we can use the **gganimate** package to bring plots to life:
 
 ```{r, cache = TRUE}
 library(gganimate)
