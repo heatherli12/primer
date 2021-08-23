@@ -1113,6 +1113,8 @@ ggplot(data = gapminder,
 
 ### Axis Limits and Scales
 
+#### `coord_cartesian()`
+
 We can also manipulate the limits of the axes by using `xlim()` and `ylim()` within a call to `coord_cartesian()`. For example, assume that we are only interested in countries with a GDP per capita from 0 to 30,000. Recall that, because `data` is the first argument and `mapping` is the second to `ggplot()`, we don't actually have to name the arguments. We can just provide them, as long as they are in the correct order.
 
 
@@ -1126,6 +1128,7 @@ ggplot(gapminder_filt,
 
 We can see that the GDP per capita on the x-axis is now only shown from 0 to 30,000. 
 
+#### `scale_x` and `scale_y`
 
 We can also change the scaling of the axes. For example, it might be useful to display the axes on a logarithmic scale by using `scale_x_log10()` or `scale_y_log10()`. Also, note that we can (lazily!) not provide the explicit `x` and `y` argument names to `aes()` as long as we provide the values in the right order: `x` comes before `y`. 
 
@@ -1140,6 +1143,33 @@ ggplot(gapminder_filt,
 
 <!-- BG: Need scale_x_cont and scale_y_cont here -->
 
+Beyond `scale_x_log10()`, there are other ways to change the scales. We will cover `scale_y_continuous` and `scale_x_continuous` in this section. 
+
+There are two major uses for `scale_x_continuous`, and that is to change the breaks and the labels. Take the graph below.
+
+```{r}
+ggplot(gapminder_filt, 
+       aes(gdpPercap, lifeExp, color = continent)) +
+  geom_point() +
+  facet_wrap(~continent) +
+  geom_smooth(formula = y ~ x, method = "lm", se = FALSE)
+```
+
+We only want there to be breaks on the y-axis every 20 years instead of every 10. We also want to add dollar signs to the x-axis, and to have breaks every 20,000 dollars. Let's fix the graph!
+
+```{r}
+ggplot(gapminder_filt, 
+       aes(gdpPercap, lifeExp, color = continent)) +
+  geom_point() +
+  facet_wrap(~continent) +
+  geom_smooth(formula = y ~ x, method = "lm", se = FALSE) +
+  scale_y_continuous(breaks = c(40, 60, 80)) +
+  scale_x_continuous(labels = scales::dollar_format(),
+                     breaks = c(0, 20000, 40000))
+```
+Let's break this down. We used the `breaks` argument to create the breaks on the scale. We used the `c()` function to specify what breaks we wanted. Then, we used `labels` to modify the labels on the x-axis. The `::` allows us to extract a function from a specific package, if the function exists in multiple packages. So, we specifically extract the `dollar_format` function from the `scales` package to change the labels of the x-axis. 
+
+There is another function called `scale_x_discrete/scale_y_discrete`. This function is similar enough to `scale_y/x_continuous` that we will not give it its own section. The only difference in the usage of the discrete vs. continuous function is that the discrete function is applied to **discrete variables**. Discrete variables are those that are countable (i.e. the number of tables in a room) with nothing in between, whereas continuous variables have infinite possibilities (i.e. height has infinite possibilities). 
 
 ### Text
 
@@ -1284,6 +1314,7 @@ ggplot(data = economics,
         panel.background = element_rect(fill = "lightblue"),
         panel.grid.minor.x = element_blank())
 ```
+
 There! Within the `theme()` function, we can change the plot title to bold, the background to blue, and get rid of the "minor" grid lines. `theme()` is a very versatile function. See the full list of elements [here](https://ggplot2-book.org/polishing.html#polishing).
 
 ## Summary
