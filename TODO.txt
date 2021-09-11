@@ -1,11 +1,7 @@
 # Priorities
 
-
 ## Students
 
-Arghayan 9/3
-Yuhan 9/4
-Ryan 9/12
 Heather 9/20
 Atilla 9/25
 
@@ -16,8 +12,7 @@ Anmay 1/1
 Heather (advanced plots and case studies) -- chapter 1
 Atilla (plots) -- chapter 2
 Anmay -- chapter 3
-Sophia (shaming), Arghayan (tables) -- chapter 4
-Yuhan  -- chapter 5
+Sophia (shaming) -- chapter 4
 Ryan -- chapter 6
 George -- chapter 7
 Ajay -- rtweet (https://cran.r-project.org/web/packages/rtweet/)? tidytext (https://github.com/juliasilge/tidytext) (https://www.tidytextmining.com/) 
@@ -26,11 +21,13 @@ Ajay -- rtweet (https://cran.r-project.org/web/packages/rtweet/)? tidytext (http
 
 * Explore new render_book() improvements, Simplify the creation of the book. Make it a Github action upon pulling.
 
-* https://walker-data.com/census-r/
+* Use the ggdistribution package, perhaps. https://t.co/8ue1b7Drh2?amp=1
 
 * Should validity be moved to Wisdom? You need to establish valdity before you can presume to consider the Preceptor Table and the data to have come from the same population. Yes!
 
 * Add rowSums() explanation to Chapter 2.
+
+* Use rvar.
 
 * Get rid of after_stat(). Or, if can't, then teach it properly and earlier.
 
