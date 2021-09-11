@@ -6,7 +6,7 @@ Everyone loves visualizations.
 
 <!-- Add comments to the code chunks, even if students won't see the comments. For example, initial plot should have a whole bunch of comments about where you got this data and how we can update it in the future.  -->
 
-<!-- Finish up opening plot.  -->
+<!-- Finish up opening plot. DONE -->
 
 <!-- Create "Going further" section. It includes some cool plots, without the code for making them (I think) and with a brief (short paragraph) description of the package which is used to make them and references for learning more. One animation. One map. One interactive.  -->
 
@@ -25,7 +25,7 @@ Everyone loves visualizations.
 <!-- Solve all problems, except geom_line and the group aesthetic. -->
 
 
-<!-- Talk more about aesthetics (i.e., aes()) in Basic plots. Make more use of color and fill. Explain how you can use either constants (like "steelblue") or variables (like party) when using these aesthetics. Make them as comfortable with color and fill as they are with data and mapping.  -->
+<!-- Talk more about aesthetics (i.e., aes()) in Basic plots. Make more use of color and fill. Explain how you can use either constants (like "steelblue") or variables (like party) when using these aesthetics. Make them as comfortable with color and fill as they are with data and mapping. DONE  -->
 
 
 ```{r, message = FALSE, echo = FALSE}
@@ -1293,6 +1293,28 @@ There! Within the `theme()` function, we can change the plot title to bold, the 
 
 ## Going further
 
+There are so many more plots you can make with R that we have not shown you yet. For example, you can create cool animations with the *gganimate* package, like this plot below.
+
+```{r, echo = FALSE, cache = TRUE}
+library(gganimate)
+
+gapminder_p <- gapminder %>%
+  filter(continent != "Oceania") %>%
+  ggplot(aes(gdpPercap, lifeExp, color = continent)) +
+    geom_point(show.legend = FALSE, alpha = 0.7) +
+    facet_wrap(~continent, nrow = 1) +
+    scale_size(range = c(2, 12)) +
+    scale_x_log10() +
+    labs(subtitle = "Life Expectancy and GDP per Capita (1952-2007)",
+         x = "GDP per Capita, USD",
+         y = "Life Expectancy, Years") +
+    theme_linedraw() +
+    transition_time(year) +
+    labs(title = "Year: {frame_time}") +
+    shadow_wake(wake_length = 0.1, alpha = FALSE)
+
+gapminder_p
+```
 
 
 ## Summary
@@ -1321,28 +1343,5 @@ hundred_days_p
 ```
 
 You now know enough to make plots like this by yourself.
-
-It is important to know that we have only seen a small part of what R offers. For example, we can use the **gganimate** package to bring plots to life:
-
-```{r, cache = TRUE}
-library(gganimate)
-
-president_anim <- gapminder %>%
-  filter(continent != "Oceania") %>%
-  ggplot(aes(gdpPercap, lifeExp, color = continent)) +
-    geom_point(show.legend = FALSE, alpha = 0.7) +
-    facet_wrap(~continent, nrow = 1) +
-    scale_size(range = c(2, 12)) +
-    scale_x_log10() +
-    labs(subtitle = "Life Expectancy and GDP per Capita (1952-2007)",
-         x = "GDP per Capita, USD",
-         y = "Life Expectancy, Years") +
-    theme_linedraw() +
-    transition_time(year) +
-    labs(title = "Year: {frame_time}") +
-    shadow_wake(wake_length = 0.1, alpha = FALSE)
-
-president_anim
-```
 
 A beautiful plot is just a collection of steps, each simple enough on its own. We have taught you (some of) these steps. Time to start walking on your own.
