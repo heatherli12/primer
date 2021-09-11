@@ -18,7 +18,6 @@ Everyone loves visualizations.
 
 <!-- Take ownership of the Advanced Plotting section. Add the tips and tricks in the comments. -->
 
-
 <!-- Ignore below for now. -->
 
 <!-- Use this for maps https://walker-data.com/census-r/ -->
@@ -65,8 +64,6 @@ hundred_days_p <- president_data %>%
 
 hundred_days_p
 ```
-
-<!-- HL: Am I doing the percents right here? Why aren't they working -->
 
 
 Once you have read this chapter, and completed the associated tutorials, you will be able to create graphics like this one with your data. Join us on the journey.
@@ -250,6 +247,62 @@ ggplot(data = trains,
 Note that like with `geom`s, we add a layer using `+` when creating `labs()`for our plot. In general, every plot should give a title and axes labels. You should also add a `subtitle`, the purpose of which is to give a short "main point" of the graphic. What do you want the viewer to notice? You should also provide the source for the data, usually via the `caption` argument.
 
 Let's now take a tour of some of the more useful geoms.
+
+### Colour and Fill
+
+Before we take a look at the other useful geoms, let's first talk about colour and fill. These are two arguments we can use to change the colour of geoms we have. 
+
+Let's take a look at this plot below.
+
+```{r}
+ggplot(data = trains, 
+       mapping = aes(x = age, 
+                     y = income,
+                     color = party)) + 
+  geom_point() +
+  labs(title = "Age and Income Among Boston Commuters",
+       subtitle = "Older commuters don't seem to make more money",
+       x = "Age",
+       y = "Income",
+       caption = "Data source: Enos (2014)")
+```
+You'll notice that the plot is the exact same as the plot in the previous section, with one key exception: we've added colours that separate the commuters by party. How did we do this? You'll notice in the `mapping = aes()` function, we've added another argument. This argument, `color = `, can change the colour of the dots by a certain value. In this case, we changed the colour by party.
+
+You can also change the dots to another colour. For instance, take this plot below:
+
+```{r}
+ggplot(data = trains, 
+       mapping = aes(x = age, 
+                     y = income,
+                     color = "steel blue")) + 
+  # for some reason this is always this colour regardless of what i change it to, like steel blue isn't blue?
+  geom_point() +
+  labs(title = "Age and Income Among Boston Commuters",
+       subtitle = "Older commuters don't seem to make more money",
+       x = "Age",
+       y = "Income",
+       caption = "Data source: Enos (2014)")
+```
+By setting the color argument equal to `steelblue`, we could change the dots to blue. R has 657 built-in color names, which you can view if you run the command `grDevices::colors()`. Give it a try in your console! If a colour you want isn't in the 657 inbuilt ones, you can also change the colour with a HEX colour code.
+
+#### Difference Between Fill and Colour
+
+There is another argument you can use, called `fill`. The key difference between fill and colour is that fill defines the colour with which a geom is filled, whereas colour moreso defines the outline of a particular geom. For example:
+
+```{r}
+ggplot(data = trains,
+       mapping = aes(x = race)) +
+  geom_bar(color = "pink")
+```
+You can see here that `color` has only changed the very outline of the bars. Comparatively, if we used `fill`:
+
+```{r}
+ggplot(data = trains,
+       mapping = aes(x = race)) +
+  geom_bar(fill = "pink")
+```
+
+You get pink bars instead. You can change the fill and color of all the geoms we show you below, so happy colouring!
 
 ### `geom_jitter()`
 
