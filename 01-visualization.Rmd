@@ -818,7 +818,7 @@ trains %>%
   mutate(old = if_else(age > 50, TRUE, FALSE))
 ```
 
-Another function similar to `if_else()`, is `dplyr::case_when()`. `case_when()` is particularly useful inside mutate when you want to create a new variable that relies on a complex combination of existing variables. Note that there is a different version of `if_else()` in base R: `ifelse()`. This works exactly the same as the **dplyr** version but is somewhat less robust. 
+Another function similar to `if_else()`, is `dplyr::case_when()`. `case_when()` is particularly useful inside mutate when you want to create a new variable that relies on a complex combination of existing variables. Note that there is a different version of `if_else()` in base R: `ifelse()`. This works exactly the same as the **dplyr** version but is somewhat less robust. For this reason, we prefer the `if_else()` version.
 
 
 ### `summarize()`
@@ -841,7 +841,7 @@ trains %>%
             sd_age = sd(age))
 ```
 
-The `mean()` and `sd()` summary functions go inside the `summarize()`  function. The `summarize()` function takes in a tibble and returns a tibbles with only one row corresponding to the summary statistics. Remember: Tibbles go in and tibble come out.
+The `mean()` and `sd()` summary functions go inside the `summarize()`  function. The `summarize()` function takes in a tibble and returns a tibble with only one row corresponding to the summary statistics. Remember: Tibbles go in and tibbles come out.
 
 
 **`mean()`**
@@ -995,9 +995,9 @@ This code displays the image in an Rmd, assuming that the file "enos_trains.jpg"
 
 ### Faceting
 
-Faceting splits a visualization into parts, one for each value of another variable.. This will create multiple copies of the same type of plot with matching x and y axes, but whose contents will differ. 
+Faceting splits a visualization into parts, one for each value of another variable. This will create multiple copies of the same type of plot with matching x and y axes, but whose contents will differ. 
 
-Before we proceed, let's create a subset of the tibble `gapminder`, from the **gapminder**, package to use. (You may need to install the **gapminder** package for this code to work. Refer back to the introduction if you need a refresher on how to do so.)
+Before we proceed, let's create a subset of the tibble `gapminder` from the **gapminder** package. (You may need to install the **gapminder** package for this code to work. Refer back to the introduction if you need a refresher on how to do so.)
 
 ```{r}
 library(gapminder)
@@ -1200,7 +1200,7 @@ gapminder %>%
   theme_economist()
 ```
 
-This looks pretty good. However, notice the legend the top of our graph.  It crowds our graph and takes away from the most important part: the data. We can use `theme()` to customize the non-data parts of our plots such as background, gridlines, and legends. Let's de-clutter the graph by removing our legend. We can do this by using the `legend.position` argument and setting it to "none".
+This looks pretty good. However, notice the legend on the top of our graph.  It crowds our graph and takes away from the most important part: the data. We can use `theme()` to customize the non-data parts of our plots such as background, gridlines, and legends. Let's de-clutter the graph by removing our legend. We can do this by using the `legend.position` argument and setting it to "none".
 
 ```{r}
 gapminder %>%
