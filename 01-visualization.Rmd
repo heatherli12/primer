@@ -34,6 +34,8 @@ president_data <- read_csv("01-visualization/data/president_approval.csv",
          enddate = lubridate::yday(enddate),
          enddate = as.integer(enddate - 20))
 
+# Data is from 538, this is the data for the first 100 days of both Biden's and Trump's presidency. Changed the columns to date formates, but also bc the term starts on January 20th instead of January 1st I needed to subtract 20 days to make sure January 20 was counted as "Day 1"
+
 hundred_days_p <- president_data %>%
   ggplot(mapping = aes(x = enddate,
                        y = rate,
