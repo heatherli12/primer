@@ -23,6 +23,7 @@ library(tidyverse)
 library(ggthemes)
 library(scales)
 library(gapminder)
+library(plotly)
 
 president_data <- read_csv("01-visualization/data/president_approval.csv",
                            show_col_types = FALSE) %>% 
@@ -1306,6 +1307,30 @@ gapminder_p <- gapminder %>%
 gapminder_p
 ```
 
+You can make your plots interactive, using the *plotly* package. Remember, you need to load packages before you use them, so load `library(plotly)` if you want to make your own interactive plots. Check out this version of
+
+```{r, echo = FALSE}
+gapminder_plot <- gapminder %>%
+  filter(continent != "Oceania") %>%
+  ggplot(aes(gdpPercap, lifeExp, color = continent)) +
+    geom_point(alpha = 0.2, size = 0.5) +
+    geom_smooth(method = "loess", 
+                formula = y ~ x,
+                se = TRUE) + 
+    facet_wrap(~continent, nrow = 1) +
+    labs(title = "Life Expectancy and GDP per Capita",
+         subtitle = "Connection between GDP and life expectancy is weakest in Africa",
+         x = "GDP per Capita",
+         y = "Life Expectancy") +
+    scale_x_log10(breaks = c(500, 5000, 50000),
+                  labels = scales::dollar_format(accuracy = 1)) + 
+    theme_linedraw() + 
+    theme(legend.position = "none")
+
+gapminder_plotly <- ggplotly(gapminder_plot)
+
+gapminder_plotly
+```
 
 ## Summary
 
