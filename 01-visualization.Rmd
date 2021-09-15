@@ -1333,6 +1333,28 @@ gapminder_plotly <- ggplotly(gapminder_plot)
 gapminder_plotly
 ```
 
+You can also create maps from census data, like this plot below.
+
+```{r, echo = FALSE}
+library(tidycensus)
+library(tigris)
+
+asian_pop <- get_acs(geography = "state",
+                     variables = c("B01003_001","B02001_005"),
+                     year = 2018,
+                     output = "wide",
+                     geometry = TRUE) %>% 
+               shift_geometry()
+
+map_p <- asian_pop %>% 
+  ggplot(fill = (B02001_005/B01003_001) * 100) + 
+    geom_sf()
+
+map_p
+  
+
+```
+
 ## Summary
 
 *Tibbles are rectangular stores of data. They are a specific type of data frame, so we will use both terms interchangeably.*
