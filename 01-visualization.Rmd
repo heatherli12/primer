@@ -18,6 +18,8 @@ Everyone loves visualizations.
 
 <!-- DO NOT DO THIS. Hold off on this for now. Don't use the unemployment data anymore. Use two or three of the temperature series from primer.data::temperature.  I have similar concerns about the `group` aesthetic, especially for line plots. But maybe group is too difficult? But can you possibly do geom_line without showing groups? -->
 
+<!-- Consider swapping out animation to use this instead: https://github.com/jschoeley/de0anim -->
+
 ```{r, message = FALSE, echo = FALSE}
 library(tidyverse)
 library(ggthemes)
@@ -1308,7 +1310,7 @@ gapminder_p <- gapminder %>%
 gapminder_p
 ```
 
-You can make your plots interactive, using the *plotly* package. Remember, you need to load packages before you use them, so load `library(plotly)` if you want to make your own interactive plots. Check out this version of
+You can make your plots interactive, using the **plotly** package. Remember, you need to load packages before you use them, so load `library(plotly)` if you want to make your own interactive plots. Example:
 
 ```{r, echo = FALSE}
 gapminder_plot <- gapminder %>%
@@ -1361,6 +1363,7 @@ dc_income_map_p <- ggplot(data = dc_income,
 dc_income_map_p
 
 ```
+
 
 ## Summary
 
