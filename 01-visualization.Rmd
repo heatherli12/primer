@@ -1340,6 +1340,8 @@ library(tidycensus)
 library(tigris)
 options(tigris_use_cache = TRUE)
 
+# source of map: https://walker-data.com/census-r/mapping-census-data-with-r.html#using-geometry-in-tidycensus
+
 dc_income <- get_acs(
   geography = "tract", 
   variables = "B19013_001",
