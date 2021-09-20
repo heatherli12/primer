@@ -1347,7 +1347,7 @@ asian_pop <- get_acs(geography = "state",
                shift_geometry()
 
 map_p <- asian_pop %>% 
-  ggplot(fill = (B02001_005/B01003_001) * 100) + 
+  ggplot(mapping = aes(fill = (B02001_005E/B01003_001E) * 100)) + 
     geom_sf()
 
 map_p
