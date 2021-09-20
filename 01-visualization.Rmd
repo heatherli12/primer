@@ -1351,7 +1351,7 @@ options(tigris_use_cache = TRUE)
 #   geometry = TRUE)
 # write_rds(x = dc_income, file = "01-visualization/data/dc_income.rds")
 
-dc_income <- read_rds("data/dc_income.rds")
+dc_income <- read_rds("01-visualization/data/dc_income.rds")
 
 dc_income_map_p <- ggplot(data = dc_income,
        mapping = aes(fill = estimate)) +
